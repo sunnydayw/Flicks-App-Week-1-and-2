@@ -51,6 +51,14 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		B37866901C5A6B78008A2350 /* View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				B3E281931C589DA0006FBD55 /* MovieViewController.swift */,
+			);
+			name = "View Controller";
+			sourceTree = "<group>";
+		};
 		B3E281731C589CD4006FBD55 = {
 			isa = PBXGroup;
 			children = (
@@ -72,13 +80,13 @@
 		B3E2817E1C589CD4006FBD55 /* Flicks */ = {
 			isa = PBXGroup;
 			children = (
+				B37866901C5A6B78008A2350 /* View Controller */,
 				B3E281951C58A635006FBD55 /* Views */,
 				B3E2817F1C589CD4006FBD55 /* AppDelegate.swift */,
 				B3E281831C589CD4006FBD55 /* Main.storyboard */,
 				B3E281861C589CD4006FBD55 /* Assets.xcassets */,
 				B3E281881C589CD4006FBD55 /* LaunchScreen.storyboard */,
 				B3E2818B1C589CD4006FBD55 /* Info.plist */,
-				B3E281931C589DA0006FBD55 /* MovieViewController.swift */,
 			);
 			path = Flicks;
 			sourceTree = "<group>";
