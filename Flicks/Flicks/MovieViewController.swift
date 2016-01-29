@@ -9,6 +9,7 @@
 import UIKit
 import AFNetworking
 import MBProgressHUD
+import ReachabilitySwift
 
 class MovieViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -18,7 +19,6 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
         tableView.dataSource = self
         tableView.delegate = self
         /*
@@ -35,6 +35,8 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
             return refreshControl
         }()
         self.tableView.addSubview(refreshControl)
+
+
         
         loadMovieData()
     }
@@ -44,12 +46,27 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         // Dispose of any resources that can be recreated.
     }
     
+    func reachabilityChanged(note: NSNotification) {
+        
+        let reachability = note.object as! Reachability
+        
+        if reachability.isReachable() {
+            if reachability.isReachableViaWiFi() {
+                print("Reachable via WiFi")
+            } else {
+                print("Reachable via Cellular")
+            }
+        } else {
+            print("Not reachable")
+        }
+    }
+    
     func loadMovieData() {
         let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
         let url = NSURL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)")
         let request = NSURLRequest(
             URL: url!,
-            cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData,timeoutInterval: 10)
+            cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData,timeoutInterval: 1)
         
         let session = NSURLSession(
             configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
@@ -65,14 +82,13 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
                 if let data = dataOrNil {
                     if let responseDictionary = try! NSJSONSerialization.JSONObjectWithData(
                         data, options:[]) as? NSDictionary {
-                            print("response: \(responseDictionary)")
+                            //print("response: \(responseDictionary)")
                             self.movies = responseDictionary["results"] as? [NSDictionary]
                             self.tableView.reloadData()
                             // Hide HUD once the network request comes back
                             MBProgressHUD.hideHUDForView(self.view, animated: true)
                             print("im in loading data")
                     } else{
-                        self.tableView.reloadData()
                         MBProgressHUD.hideHUDForView(self.view, animated: true)
                         self.loadMovieData()
                         print("im in reloading")
@@ -85,6 +101,8 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func refresh(refreshControl: UIRefreshControl) {
         loadMovieData()
+        print("refresh")
+        
         self.tableView.reloadData()
         refreshControl.endRefreshing()
     }
@@ -113,9 +131,17 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
             cell.overviewLabel.text = overview
         }
         //cell.textLabel?.text = title
-        print("row \(indexPath.row)")
+        //print("row \(indexPath.row)")
         return cell
         
+    }
+    func NetworkErrorMessage() {
+        let networkError = UIAlertController(title: "Network Error", message: "You need to connect to interne", preferredStyle: UIAlertControllerStyle.Alert)
+        let okAction = UIAlertAction(title: "Got it", style: UIAlertActionStyle.Default) {(ACTION) in
+            print("ok press")
+            }
+        networkError.addAction(okAction)
+        self.presentViewController(networkError, animated: true, completion: nil)
     }
     /*
     // MARK: - Navigation
