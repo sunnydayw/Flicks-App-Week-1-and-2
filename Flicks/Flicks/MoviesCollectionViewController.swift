@@ -1,72 +1,31 @@
 //
-//  MovieViewController.swift
+//  MoviesCollectionViewController.swift
 //  Flicks
 //
-//  Created by QingTian Chen on 1/27/16.
+//  Created by QingTian Chen on 1/31/16.
 //  Copyright © 2016 QingTian Chen. All rights reserved.
 //
 
 import UIKit
 import AFNetworking
 import MBProgressHUD
-import ReachabilitySwift
 
-class MovieViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    
-    @IBOutlet weak var networkerrorview: networkUIview!
-    @IBOutlet weak var tableView: UITableView!
+class MoviesCollectionViewController: UIViewController, UICollectionViewDataSource {
+
+    @IBOutlet weak var collectionView: UICollectionView!
     var movies: [NSDictionary]?
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
-        tableView.dataSource = self
-        tableView.delegate = self
-        self.networkerrorview.hidden = true
-        
-        /*UIView.animateWithDuration(1) { () -> Void in
-            self.networkerrorview.center.y -= 50
-            self.networkerrorview.alpha = 1
-        }*/
-        
-        /*
-        // pull and refresh
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: "refresh", forControlEvents: .ValueChanged)
-        tableView.addSubview(refreshControl)
-        //tableView.backgroundView = refreshControl
-        */
-        
-        //pull and refresh
-        let refreshControl: UIRefreshControl = {
-            let refreshControl = UIRefreshControl()
-            refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
-            return refreshControl
-        }()
-        
-        self.tableView.addSubview(refreshControl)
+        collectionView.dataSource = self
 
+        // Do any additional setup after loading the view.
         loadMovieData()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    func reachabilityChanged(note: NSNotification) {
-        
-        let reachability = note.object as! Reachability
-        
-        if reachability.isReachable() {
-            if reachability.isReachableViaWiFi() {
-                print("Reachable via WiFi")
-            } else {
-                print("Reachable via Cellular")
-            }
-        } else {
-            print("Not reachable")
-        }
     }
     
     func loadMovieData() {
@@ -92,7 +51,7 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
                         data, options:[]) as? NSDictionary {
                             //print("response: \(responseDictionary)")
                             self.movies = responseDictionary["results"] as? [NSDictionary]
-                            self.tableView.reloadData()
+                            self.collectionView.reloadData()
                             // Hide HUD once the network request comes back
                             MBProgressHUD.hideHUDForView(self.view, animated: true)
                             print("im in loading data")
@@ -104,52 +63,35 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
                 }
         })
         task.resume()
+        
+    }
 
-    }
     
-    func refresh(refreshControl: UIRefreshControl) {          loadMovieData()
-        print("refresh")
-        self.networkerrorview.hidden = false
-        self.tableView.reloadData()
-        refreshControl.endRefreshing()
-    }
-    
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let movies = movies {
             return movies.count
         }else {
             return 0
         }
-    
+        
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-
-        let cell = tableView.dequeueReusableCellWithIdentifier("MovieCell", forIndexPath: indexPath) as! MovieCell
-        
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Chen.Cell", forIndexPath: indexPath) as! MovieCollectionViewCell
         let movie = movies![indexPath.row]
-        let title = movie["title"] as! String
-        let overview = movie["overview"] as! String
         if let posterPath = movie["poster_path"] as? String {
             let baseUrl = "http://image.tmdb.org/t/p/w500"
             let imageUrl = NSURL(string: baseUrl + posterPath)
-            cell.posterView.setImageWithURL(imageUrl!)
-            cell.titleLabel.text = title
-            cell.overviewLabel.text = overview
+            cell.CollectionImg.setImageWithURL(imageUrl!)
         }
         //cell.textLabel?.text = title
         //print("row \(indexPath.row)")
         return cell
         
     }
-    func NetworkErrorMessage() {
-        let networkError = UIAlertController(title: "Network Error", message: "You need to connect to interne", preferredStyle: UIAlertControllerStyle.Alert)
-        let okAction = UIAlertAction(title: "Got it", style: UIAlertActionStyle.Default) {(ACTION) in
-            print("ok press")
-            }
-        networkError.addAction(okAction)
-        self.presentViewController(networkError, animated: true, completion: nil)
-    }
+
+    
+
     /*
     // MARK: - Navigation
 

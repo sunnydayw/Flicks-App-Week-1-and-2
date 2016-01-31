@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var reachability: Reachability?
-    
+    var networkerrorview: networkUIview!
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -34,10 +34,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("Unable to create Reachability")
             
         }
-    
         reachability!.whenReachable = { reachability in
             // this is called on a background thread, but UI updates must
             // be on the main thread, like this:
+            //self.networkerrorview.hidden = true
             dispatch_async(dispatch_get_main_queue()) {
                 if reachability.isReachableViaWiFi() {
                     print("Reachable via WiFi")
@@ -49,6 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         reachability!.whenUnreachable = { reachability in
             // this is called on a background thread, but UI updates must
             // be on the main thread, like this:
+            //self.networkerrorview.hidden = false
             dispatch_async(dispatch_get_main_queue()) {
                 print("Not reachable")
             }
