@@ -11,11 +11,10 @@ import ReachabilitySwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
     var window: UIWindow?
-    var reachability: Reachability?
-    var networkerrorview: networkUIview!
-
+    //var reachability: Reachability?
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         /*
@@ -25,8 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             object: nil);
         reachability = Reachability.reachabilityForInternetConnection();
         reachability!.startNotifier();
-        */
-        
+
         // check for network reach ability
         do {
             reachability = try Reachability.reachabilityForInternetConnection()
@@ -37,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         reachability!.whenReachable = { reachability in
             // this is called on a background thread, but UI updates must
             // be on the main thread, like this:
-            //self.networkerrorview.hidden = true
+            //self.VC.networkError.hidden = true
             dispatch_async(dispatch_get_main_queue()) {
                 if reachability.isReachableViaWiFi() {
                     print("Reachable via WiFi")
@@ -49,7 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         reachability!.whenUnreachable = { reachability in
             // this is called on a background thread, but UI updates must
             // be on the main thread, like this:
-            //self.networkerrorview.hidden = false
+            //self.VC.networkError.hidden = false
             dispatch_async(dispatch_get_main_queue()) {
                 print("Not reachable")
             }
@@ -60,7 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } catch {
             print("Unable to start notifier")
         }
-        
+        */
         return true
     }
 

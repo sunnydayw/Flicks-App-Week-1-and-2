@@ -9,15 +9,59 @@
 import UIKit
 import AFNetworking
 import MBProgressHUD
+import ReachabilitySwift
 
-class MoviesCollectionViewController: UIViewController, UICollectionViewDataSource {
+class MoviesCollectionViewController: UIViewController, UICollectionViewDataSource,UICollectionViewDelegate {
 
+    @IBOutlet weak var networkError: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     var movies: [NSDictionary]?
+    var reachability: Reachability?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.dataSource = self
+        collectionView.delegate = self
+        /****** Check network Status ******/
+        do {
+            reachability = try Reachability.reachabilityForInternetConnection()
+        } catch {
+            print("Unable to create Reachability")
+        }
+        reachability!.whenReachable = { reachability in
+            // this is called on a background thread, but UI updates must
+            // be on the main thread, like this:
+            self.networkError.hidden = true
+            dispatch_async(dispatch_get_main_queue()) {
+                if reachability.isReachableViaWiFi() {
+                    print("Reachable via WiFi")
+                } else {
+                    print("Reachable via Cellular")
+                }
+            }
+        }
+        reachability!.whenUnreachable = { reachability in
+            // this is called on a background thread, but UI updates must
+            // be on the main thread, like this:
+            self.networkError.hidden = false
+            dispatch_async(dispatch_get_main_queue()) {
+                print("Not reachable")
+            }
+        }
+        do {
+            try reachability!.startNotifier()
+        } catch {
+            print("Unable to start notifier")
+        }
+        
+        /****** Pull and refresh ******/
+        let refreshControl: UIRefreshControl = {
+            let refreshControl = UIRefreshControl()
+            refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+            return refreshControl
+        }()
+        self.collectionView.addSubview(refreshControl)
+        
 
         // Do any additional setup after loading the view.
         loadMovieData()
@@ -26,6 +70,27 @@ class MoviesCollectionViewController: UIViewController, UICollectionViewDataSour
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    func refresh(refreshControl: UIRefreshControl) {
+        print("refresh")
+        loadMovieData()
+        collectionView.reloadData()
+        refreshControl.endRefreshing()
+    }
+    
+    func reachabilityChanged(note: NSNotification) {
+        
+        let reachability = note.object as! Reachability
+        
+        if reachability.isReachable() {
+            if reachability.isReachableViaWiFi() {
+                print("Reachable via WiFi")
+            } else {
+                print("Reachable via Cellular")
+            }
+        } else {
+            print("Not reachable")
+        }
     }
     
     func loadMovieData() {
@@ -82,7 +147,31 @@ class MoviesCollectionViewController: UIViewController, UICollectionViewDataSour
         if let posterPath = movie["poster_path"] as? String {
             let baseUrl = "http://image.tmdb.org/t/p/w500"
             let imageUrl = NSURL(string: baseUrl + posterPath)
-            cell.CollectionImg.setImageWithURL(imageUrl!)
+            //cell.CollectionImg.setImageWithURL(imageUrl!)
+            
+            //Fading in an Image Loaded from the Network
+            let imageRequest = NSURLRequest(URL: imageUrl!)
+            cell.CollectionImg.setImageWithURLRequest(
+                imageRequest,
+                placeholderImage: nil,
+                success: { (imageRequest, imageResponse, image) -> Void in
+                    // imageResponse will be nil if the image is cached
+                    if imageResponse != nil {
+                        print("Image was NOT cached, fade in image")
+                        cell.CollectionImg.alpha = 0.0
+                        cell.CollectionImg.image = image
+                        UIView.animateWithDuration(1, animations: { () -> Void in
+                            cell.CollectionImg.alpha = 1.0
+                        })
+                    } else {
+                        print("Image was cached so just update the image")
+                        cell.CollectionImg.image = image
+                    }
+                },
+                failure: { (imageRequest, imageResponse, error) -> Void in
+                    // do something for the failure condition
+            })
+
         }
         //cell.textLabel?.text = title
         //print("row \(indexPath.row)")
@@ -90,7 +179,17 @@ class MoviesCollectionViewController: UIViewController, UICollectionViewDataSour
         
     }
 
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if (segue.identifier == "1"){
+            let cell = sender as! UICollectionViewCell
+            let selectedRowIndex = collectionView.indexPathForCell(cell)
+            let movie = movies![(selectedRowIndex!.row)]
+            let targetView: DetailViewViewController = segue.destinationViewController as! DetailViewViewController
+            targetView.movie = movie
+        }
+    }
     
+
 
     /*
     // MARK: - Navigation

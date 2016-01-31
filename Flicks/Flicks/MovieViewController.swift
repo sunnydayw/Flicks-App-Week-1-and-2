@@ -11,47 +11,78 @@ import AFNetworking
 import MBProgressHUD
 import ReachabilitySwift
 
-class MovieViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class MovieViewController: UIViewController, UITableViewDataSource, UITableViewDelegate,UISearchBarDelegate {
     
-    @IBOutlet weak var networkerrorview: networkUIview!
+    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var networkError: UIView!
     @IBOutlet weak var tableView: UITableView!
     var movies: [NSDictionary]?
+    var reachability: Reachability?
+    var data: [String] = []
+    var filteredData: [String] = []
+    
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
-        self.networkerrorview.hidden = true
+        searchBar.delegate = self
+        filteredData = data
+        /****** Check network Status ******/
+        do {
+            reachability = try Reachability.reachabilityForInternetConnection()
+        } catch {
+            print("Unable to create Reachability")
+        }
+        reachability!.whenReachable = { reachability in
+            // this is called on a background thread, but UI updates must
+            // be on the main thread, like this:
+            self.networkError.hidden = true
+            dispatch_async(dispatch_get_main_queue()) {
+                if reachability.isReachableViaWiFi() {
+                    print("Reachable via WiFi")
+                } else {
+                    print("Reachable via Cellular")
+                }
+            }
+        }
+        reachability!.whenUnreachable = { reachability in
+            // this is called on a background thread, but UI updates must
+            // be on the main thread, like this:
+            self.networkError.hidden = false
+            dispatch_async(dispatch_get_main_queue()) {
+                print("Not reachable")
+            }
+        }
+        do {
+            try reachability!.startNotifier()
+        } catch {
+            print("Unable to start notifier")
+        }
         
-        /*UIView.animateWithDuration(1) { () -> Void in
-            self.networkerrorview.center.y -= 50
-            self.networkerrorview.alpha = 1
-        }*/
-        
-        /*
-        // pull and refresh
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: "refresh", forControlEvents: .ValueChanged)
-        tableView.addSubview(refreshControl)
-        //tableView.backgroundView = refreshControl
-        */
-        
-        //pull and refresh
+        /****** Pull and refresh ******/
         let refreshControl: UIRefreshControl = {
             let refreshControl = UIRefreshControl()
             refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
             return refreshControl
         }()
-        
         self.tableView.addSubview(refreshControl)
-
+        
+        /****** Load Network Data ******/
         loadMovieData()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func refresh(refreshControl: UIRefreshControl) {
+        print("refresh")
+        loadMovieData()
+        self.tableView.reloadData()
+        refreshControl.endRefreshing()
     }
     
     func reachabilityChanged(note: NSNotification) {
@@ -81,10 +112,9 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
             delegate: nil,
             delegateQueue: NSOperationQueue.mainQueue()
         )
-        
         // Display HUD right before the request is made
         MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        
+
         let task: NSURLSessionDataTask = session.dataTaskWithRequest(request,
             completionHandler: { (dataOrNil, response, error) in
                 if let data = dataOrNil {
@@ -107,49 +137,85 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     }
     
-    func refresh(refreshControl: UIRefreshControl) {          loadMovieData()
-        print("refresh")
-        self.networkerrorview.hidden = false
-        self.tableView.reloadData()
-        refreshControl.endRefreshing()
-    }
-    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         if let movies = movies {
             return movies.count
+            //return filteredData.count
         }else {
             return 0
         }
+        
     
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-
-        let cell = tableView.dequeueReusableCellWithIdentifier("MovieCell", forIndexPath: indexPath) as! MovieCell
         
+        let cell = tableView.dequeueReusableCellWithIdentifier("MovieCell", forIndexPath: indexPath) as! MovieCell
         let movie = movies![indexPath.row]
         let title = movie["title"] as! String
+        //print("\(indexPath.row)")
+        data.append(title)
         let overview = movie["overview"] as! String
         if let posterPath = movie["poster_path"] as? String {
+            // we geting 500x750 image
             let baseUrl = "http://image.tmdb.org/t/p/w500"
             let imageUrl = NSURL(string: baseUrl + posterPath)
-            cell.posterView.setImageWithURL(imageUrl!)
+            //cell.posterView.setImageWithURL(imageUrl!)
             cell.titleLabel.text = title
             cell.overviewLabel.text = overview
+            
+            //Fading in an Image Loaded from the Network
+            let imageRequest = NSURLRequest(URL: imageUrl!)
+            cell.posterView.setImageWithURLRequest(
+                imageRequest,
+                placeholderImage: nil,
+                success: { (imageRequest, imageResponse, image) -> Void in
+                    // imageResponse will be nil if the image is cached
+                    if imageResponse != nil {
+                        print("Image was NOT cached, fade in image")
+                        cell.posterView.alpha = 0.0
+                        cell.posterView.image = image
+                        UIView.animateWithDuration(1, animations: { () -> Void in
+                            cell.posterView.alpha = 1.0
+                        })
+                    } else {
+                        print("Image was cached so just update the image")
+                        cell.posterView.image = image
+                    }
+                },
+                failure: { (imageRequest, imageResponse, error) -> Void in
+                    // do something for the failure condition
+            })
+
         }
         //cell.textLabel?.text = title
         //print("row \(indexPath.row)")
         return cell
-        
     }
-    func NetworkErrorMessage() {
-        let networkError = UIAlertController(title: "Network Error", message: "You need to connect to interne", preferredStyle: UIAlertControllerStyle.Alert)
-        let okAction = UIAlertAction(title: "Got it", style: UIAlertActionStyle.Default) {(ACTION) in
-            print("ok press")
-            }
-        networkError.addAction(okAction)
-        self.presentViewController(networkError, animated: true, completion: nil)
+    
+    // This method updates filteredData based on the text in the Search Box
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        // When there is no text, filteredData is the same as the original data
+        if searchText.isEmpty {
+            filteredData = data
+        } else {
+            // The user has entered text into the search box
+            // Use the filter method to iterate over all items in the data array
+            // For each item, return true if the item should be included and false if the
+            // item should NOT be included
+            filteredData = data.filter({(dataItem: String) -> Bool in
+                // If dataItem matches the searchText, return true to include it
+                if dataItem.rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil {
+                    return true
+                } else {
+                    return false
+                }
+            })
+        }
+        tableView.reloadData()
     }
+    
     /*
     // MARK: - Navigation
 
@@ -159,5 +225,14 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         // Pass the selected object to the new view controller.
     }
     */
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if (segue.identifier == "detailOfMovie"){
+            let selectedRowIndex = self.tableView.indexPathForSelectedRow
+            let movie = movies![(selectedRowIndex?.row)!]
+            let targetView: DetailViewViewController = segue.destinationViewController as! DetailViewViewController
+            targetView.movie = movie
+        }
+    }
 
 }
