@@ -2,7 +2,7 @@
 
 **Movie Viewer** is a movies app using the [The Movie Database API](http://docs.themoviedb.apiary.io/#).
 
-Time spent: **8** hours spent in total
+Time spent: **12** hours spent in total
 
 ## User Stories
 
@@ -28,20 +28,20 @@ The following **additional** features are implemented:
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
 1. How to manage NSDictionary, such as move data from one NSDictionary to another, and better way to apply search method to NSDictionary. 
-2. how to manage multiple view controll, I alway have problem when I use both modal and push at same time.
+2. How to manage multiple view control and the app flow.
 
 ## Video Walkthrough 
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://imgur.com/qdIO8Fv' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
 Describe any challenges encountered while building the app.
-Most parts are very straight forward, just some small issues that I need to search for, the most challenge part is the SearchBar, I able to get it working, but I think there should be a better way to do it.
+Most parts are very straight forward, just some small issues and I can just google and find the solution. The most challenging part is the SearchBar, I able to get it working, but I think there should be a better way to do it.
 
 ## License
 
