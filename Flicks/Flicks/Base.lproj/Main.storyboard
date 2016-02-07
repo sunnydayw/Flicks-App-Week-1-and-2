@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="1yF-CG-QTo">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="0fq-pl-YGM">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Segues with Peek and Pop" minToolsVersion="7.1"/>
     </dependencies>
     <scenes>
-        <!--Movie List-->
+        <!--Now Playing-->
         <scene sceneID="tne-QT-ifu">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <viewController id="BYZ-38-t0r" customClass="MovieViewController" customModule="Flicks" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="vaL-zi-7Ir"/>
@@ -17,7 +19,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="200" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="am2-sh-FVn">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="133" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="am2-sh-FVn">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <searchBar key="tableHeaderView" contentMode="redraw" id="ZL1-O6-4Lq">
@@ -26,25 +28,25 @@
                                     <textInputTraits key="textInputTraits"/>
                                 </searchBar>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="MovieCell" rowHeight="200" id="57Z-x9-Zra" customClass="MovieCell" customModule="Flicks" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="136" width="375" height="200"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="MovieCell" rowHeight="148" id="57Z-x9-Zra" customClass="MovieCell" customModule="Flicks" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="136" width="375" height="148"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="57Z-x9-Zra" id="jvc-PC-58N">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="199"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="147"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tj2-fZ-wfb">
-                                                    <rect key="frame" x="8" y="6" width="100" height="188"/>
+                                                    <rect key="frame" x="8" y="1" width="92" height="138"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Movie Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FJV-NX-NYP">
-                                                    <rect key="frame" x="124" y="0.0" width="243" height="30"/>
-                                                    <fontDescription key="fontDescription" type="italicSystem" pointSize="25"/>
+                                                    <rect key="frame" x="108" y="5" width="226" height="24"/>
+                                                    <fontDescription key="fontDescription" type="italicSystem" pointSize="20"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Overview" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XvM-nd-WcF">
-                                                    <rect key="frame" x="124" y="38" width="243" height="153"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <rect key="frame" x="108" y="23" width="234" height="116"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -54,7 +56,10 @@
                                             <outlet property="overviewLabel" destination="XvM-nd-WcF" id="GTz-pJ-Vjj"/>
                                             <outlet property="posterView" destination="tj2-fZ-wfb" id="Bax-z8-O4n"/>
                                             <outlet property="titleLabel" destination="FJV-NX-NYP" id="sFG-vR-wPg"/>
-                                            <segue destination="JWO-oY-FQM" kind="push" identifier="detailOfMovie" id="fpa-RT-cph"/>
+                                            <segue destination="JWO-oY-FQM" kind="push" identifier="detailOfMovie" id="fpa-RT-cph">
+                                                <segue key="commit" inheritsFrom="parent" id="MsW-5E-qqY"/>
+                                                <segue key="preview" inheritsFrom="commit" id="mTg-kv-T1J"/>
+                                            </segue>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -93,14 +98,14 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Movie List" id="7tq-Qq-kam">
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="Rcz-Gz-XlF">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="unn-v4-wbA">
-                                <rect key="frame" x="276" y="7" width="83" height="30"/>
+                    <navigationItem key="navigationItem" title="Now Playing" id="7tq-Qq-kam">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="cHZ-gb-6n3">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="LrU-UZ-aKb">
+                                <rect key="frame" x="334" y="9" width="25" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
+                                <state key="normal" image="collection icon"/>
                                 <connections>
-                                    <segue destination="7Bo-DR-7Rb" kind="push" id="baw-ls-DeW"/>
+                                    <segue destination="7Bo-DR-7Rb" kind="push" id="cAV-Mh-pHa"/>
                                 </connections>
                             </button>
                         </barButtonItem>
@@ -112,7 +117,6 @@
                         <outlet property="tableView" destination="am2-sh-FVn" id="1Eb-6e-Irg"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="668.5" y="-150.5"/>
         </scene>
@@ -267,6 +271,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="1yF-CG-QTo" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="Esi-e4-iPA"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="n6m-z1-qOy">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -299,11 +304,49 @@
             </objects>
             <point key="canvasLocation" x="137" y="679"/>
         </scene>
+        <!--Launch Screen View Controller-->
+        <scene sceneID="nzY-X4-6LM">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="R9u-rn-YiS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="0fq-pl-YGM" customClass="LaunchScreenViewController" customModule="Flicks" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="bsF-Xq-gbU"/>
+                        <viewControllerLayoutGuide type="bottom" id="wlt-36-uyt"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="yFj-Zr-yyE">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="  Copyright © 2015 QingTian Chen. All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="QXi-l0-teP">
+                                <rect key="frame" x="47" y="638" width="280" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" alpha="0.5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Launch Screen" translatesAutoresizingMaskIntoConstraints="NO" id="xBJ-qS-qJR">
+                                <rect key="frame" x="12" y="179" width="350" height="309"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="launchImg" destination="xBJ-qS-qJR" id="7VT-2L-Sm0"/>
+                        <segue destination="1yF-CG-QTo" kind="modal" identifier="showSplashScreen" modalTransitionStyle="flipHorizontal" id="A1R-dQ-r0x"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="-344.5" y="-162.5"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="Launch Screen" width="350" height="309"/>
+        <image name="collection icon" width="25" height="25"/>
         <image name="network-error-img" width="605" height="605"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="baw-ls-DeW"/>
+        <segue reference="fpa-RT-cph"/>
+        <segue reference="A1R-dQ-r0x"/>
+        <segue reference="cAV-Mh-pHa"/>
     </inferredMetricsTieBreakers>
 </document>
