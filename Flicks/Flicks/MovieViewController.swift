@@ -17,10 +17,11 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
     @IBOutlet weak var networkError: UIView!
     @IBOutlet weak var tableView: UITableView!
     var movies: [NSDictionary]?
+    var filterNSD: [NSDictionary]?
     var reachability: Reachability?
-    var data: [String] = []
+    var MovieDdata: [String] = []
     var filteredData: [String] = []
-    
+    var displayarray: [Int] = []
     
     override func viewDidLoad() {
         
@@ -28,7 +29,7 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         tableView.dataSource = self
         tableView.delegate = self
         searchBar.delegate = self
-        filteredData = data
+        filteredData = MovieDdata
         /****** Check network Status ******/
         do {
             reachability = try Reachability.reachabilityForInternetConnection()
@@ -122,10 +123,20 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
                         data, options:[]) as? NSDictionary {
                             //print("response: \(responseDictionary)")
                             self.movies = responseDictionary["results"] as? [NSDictionary]
-                            self.tableView.reloadData()
+                            // load movie title in to array MovieData
+                            self.MovieDdata.removeAll()
+                            let NumOfMovie = self.movies!.count
+                            for (var i=0; i < NumOfMovie; i++) {
+                                var movie = self.movies![i]
+                                var title = movie["title"] as! String
+                                self.MovieDdata.append(title)
+                            }
+                            self.filteredData = self.MovieDdata
+                            //print("\(self.MovieDdata)")
+                            //print("\(NumOfMovie)")
                             // Hide HUD once the network request comes back
                             MBProgressHUD.hideHUDForView(self.view, animated: true)
-                            print("im in loading data")
+                            self.tableView.reloadData()
                     } else{
                         MBProgressHUD.hideHUDForView(self.view, animated: true)
                         self.loadMovieData()
@@ -137,25 +148,24 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        if let movies = movies {
-            return movies.count
-            //return filteredData.count
-        }else {
-            return 0
-        }
-        
-    
-    }
-    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCellWithIdentifier("MovieCell", forIndexPath: indexPath) as! MovieCell
-        let movie = movies![indexPath.row]
+        displayarray.removeAll()
+        for (var i = 0; i<self.movies!.count; i++) {
+            let movie = movies! [i]
+            let title = movie["title"] as! String
+            for (var j = 0; j<filteredData.count; j++) {
+                if(title == filteredData[j]) {
+                    let Number = movies!.indexOf(movie)! as Int
+                    displayarray.append(Number)
+                }
+            }
+        }
+        print("\(displayarray)")
+        //let movie = filterNSD![indexPath.row]
+        let movie = movies![displayarray[indexPath.row]]
+        // display all movie[index] element, find those index element in moives
         let title = movie["title"] as! String
-        //print("\(indexPath.row)")
-        data.append(title)
         let overview = movie["overview"] as! String
         if let posterPath = movie["poster_path"] as? String {
             // we geting 500x750 image
@@ -164,7 +174,6 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
             //cell.posterView.setImageWithURL(imageUrl!)
             cell.titleLabel.text = title
             cell.overviewLabel.text = overview
-            
             //Fading in an Image Loaded from the Network
             let imageRequest = NSURLRequest(URL: imageUrl!)
             cell.posterView.setImageWithURLRequest(
@@ -189,24 +198,59 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
             })
 
         }
-        //cell.textLabel?.text = title
-        //print("row \(indexPath.row)")
         return cell
     }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if let movies = movies {
+            //filteredData change when text did change happen,only filtered title appear
+            //find same title in the movies array and only display those movies
+            //print("\(filteredData.count)")
+            //print("\(filteredData)")
+            return filteredData.count
+            
+        }else {
+            return 0
+        }
+        
+        
+    }
+    
     
     // This method updates filteredData based on the text in the Search Box
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         // When there is no text, filteredData is the same as the original data
         if searchText.isEmpty {
-            filteredData = data
+            filteredData = MovieDdata
         } else {
             // The user has entered text into the search box
             // Use the filter method to iterate over all items in the data array
             // For each item, return true if the item should be included and false if the
             // item should NOT be included
-            filteredData = data.filter({(dataItem: String) -> Bool in
+            filteredData = MovieDdata.filter({(dataItem: String) -> Bool in
                 // If dataItem matches the searchText, return true to include it
                 if dataItem.rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil {
+                    
+                    /* 
+                    for loop from 0 to # of movies
+                        for # of filter moive
+                            if n moive title = # filter moive title
+                                find title postiton in moives 
+                                save that position to filteredNSD
+                    */
+                    /*
+                    for (var i = 0; i<self.movies!.count; i++) {
+                        let movie = movies! [i]
+                        let title = movie["title"] as! String
+                        for (var j = 0; j<filteredData.count; j++) {
+                            if(title == filteredData[j]) {
+                                print("\(title) = \(filteredData[j])")
+                                print("\(movies?.indexOf(movie))")
+                            }
+                        }
+                    }*/
+                    
                     return true
                 } else {
                     return false
@@ -225,11 +269,10 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         // Pass the selected object to the new view controller.
     }
     */
-    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if (segue.identifier == "detailOfMovie"){
             let selectedRowIndex = self.tableView.indexPathForSelectedRow
-            let movie = movies![(selectedRowIndex?.row)!]
+            let movie = movies![displayarray[(selectedRowIndex?.row)!]]
             let targetView: DetailViewViewController = segue.destinationViewController as! DetailViewViewController
             targetView.movie = movie
         }
