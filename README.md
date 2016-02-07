@@ -35,7 +35,7 @@ Please list two areas of the assignment you'd like to **discuss further with you
 Here's a walkthrough of implemented user stories:
 
 <img src='https://github.com/sunnydayw/Flicks-App-Week-1-and-2/blob/master/Filcker-Week-1.gif' />
-
+Using this link, the gif quality might be better.
 http://i.imgur.com/qdIO8Fv.gifv
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
