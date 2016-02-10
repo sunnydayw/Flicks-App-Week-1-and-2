@@ -14,9 +14,9 @@ class LaunchScreenViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //self.showNavController()
-        UIView.animateWithDuration(0.3, delay: 0.1, usingSpringWithDamping: 0.5, initialSpringVelocity: 10, options: [], animations: { () -> Void in
+        UIView.animateWithDuration(0.3, delay: 0.88, usingSpringWithDamping: 0.5, initialSpringVelocity: 10, options: [], animations: { () -> Void in
             self.launchImg.transform = CGAffineTransformMakeScale(1.1, 1.1)
-            self.launchImg.alpha = 0.5
+            self.launchImg.alpha = 0.6
             }) { (Bool) -> Void in
                 UIView.animateWithDuration(0.3, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 10, options: [], animations: { () -> Void in
                     self.launchImg.transform = CGAffineTransformMakeScale(1, 1)
@@ -24,7 +24,7 @@ class LaunchScreenViewController: UIViewController {
                     }, completion: { (Bool) -> Void in
                         UIView.animateWithDuration(0.3, delay: 0.1, usingSpringWithDamping: 0.5, initialSpringVelocity: 10, options: [], animations: { () -> Void in
                             self.launchImg.transform = CGAffineTransformMakeScale(1.1, 1.1)
-                            self.launchImg.alpha = 0.5
+                            self.launchImg.alpha = 0.6
                             }) { (Bool) -> Void in
                                 UIView.animateWithDuration(0.3, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 10, options: [], animations: { () -> Void in
                                     self.launchImg.transform = CGAffineTransformMakeScale(1, 1)
@@ -32,7 +32,7 @@ class LaunchScreenViewController: UIViewController {
                                     }, completion: { (Bool) -> Void in
                                         UIView.animateWithDuration(0.3, delay: 0.1, usingSpringWithDamping: 0.5, initialSpringVelocity: 10, options: [], animations: { () -> Void in
                                             self.launchImg.transform = CGAffineTransformMakeScale(1.1, 1.1)
-                                            self.launchImg.alpha = 0.5
+                                            self.launchImg.alpha = 0.6
                                             }) { (Bool) -> Void in
                                                 UIView.animateWithDuration(0.3, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 10, options: [], animations: { () -> Void in
                                                     self.launchImg.transform = CGAffineTransformMakeScale(1, 1)
@@ -60,7 +60,7 @@ class LaunchScreenViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     func showNavController() {
-        performSegueWithIdentifier("showSplashScreen", sender: self)
+        performSegueWithIdentifier("showMain", sender: self)
     }
 
     /*

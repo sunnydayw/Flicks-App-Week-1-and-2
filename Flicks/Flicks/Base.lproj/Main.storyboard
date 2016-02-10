@@ -1,35 +1,60 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="0fq-pl-YGM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
-        <capability name="Segues with Peek and Pop" minToolsVersion="7.1"/>
     </dependencies>
     <scenes>
-        <!--Now Playing-->
+        <!--Movie View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <viewController id="BYZ-38-t0r" customClass="MovieViewController" customModule="Flicks" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="vaL-zi-7Ir"/>
-                        <viewControllerLayoutGuide type="bottom" id="N7L-NH-0aP"/>
+                        <viewControllerLayoutGuide type="top" id="4DS-Bi-9Il"/>
+                        <viewControllerLayoutGuide type="bottom" id="y7j-Pi-dkA"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="NetworkErrorMessage" translatesAutoresizingMaskIntoConstraints="NO" id="eL7-HI-fM5">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GJy-sz-poq" customClass="networkUIview" customModule="Flicks" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="network-error-img" translatesAutoresizingMaskIntoConstraints="NO" id="J6R-at-5LV">
+                                                <rect key="frame" x="40" y="5" width="40" height="40"/>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Network Error" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T7L-5a-ah5">
+                                                <rect key="frame" x="120" y="0.0" width="124" height="21"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Couldn't connect to the server. Check you network connectioin" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cgc-RG-1ij">
+                                                <rect key="frame" x="120" y="18" width="225" height="32"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.81960784310000001" green="0.22352941179999999" blue="0.23921568630000001" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="133" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="am2-sh-FVn">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <searchBar key="tableHeaderView" contentMode="redraw" id="ZL1-O6-4Lq">
-                                    <rect key="frame" x="0.0" y="64" width="375" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </searchBar>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="MovieCell" rowHeight="148" id="57Z-x9-Zra" customClass="MovieCell" customModule="Flicks" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="136" width="375" height="148"/>
+                                        <rect key="frame" x="0.0" y="72" width="375" height="148"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="57Z-x9-Zra" id="jvc-PC-58N">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="147"/>
@@ -56,10 +81,7 @@
                                             <outlet property="overviewLabel" destination="XvM-nd-WcF" id="GTz-pJ-Vjj"/>
                                             <outlet property="posterView" destination="tj2-fZ-wfb" id="Bax-z8-O4n"/>
                                             <outlet property="titleLabel" destination="FJV-NX-NYP" id="sFG-vR-wPg"/>
-                                            <segue destination="JWO-oY-FQM" kind="push" identifier="detailOfMovie" id="fpa-RT-cph">
-                                                <segue key="commit" inheritsFrom="parent" id="MsW-5E-qqY"/>
-                                                <segue key="preview" inheritsFrom="commit" id="mTg-kv-T1J"/>
-                                            </segue>
+                                            <segue destination="JWO-oY-FQM" kind="push" identifier="pushToDetail" id="5I6-un-LSv"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -68,48 +90,10 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="sT5-Xa-55f"/>
                                 </connections>
                             </tableView>
-                            <view contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="NetworkErrorMessage" translatesAutoresizingMaskIntoConstraints="NO" id="eL7-HI-fM5">
-                                <rect key="frame" x="0.0" y="617" width="375" height="50"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GJy-sz-poq" customClass="networkUIview" customModule="Flicks" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
-                                        <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="network-error-img" translatesAutoresizingMaskIntoConstraints="NO" id="J6R-at-5LV">
-                                                <rect key="frame" x="40" y="5" width="40" height="40"/>
-                                            </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Network Error" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T7L-5a-ah5">
-                                                <rect key="frame" x="120" y="0.0" width="124" height="21"/>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Couldn't connect to the server. Check you network connectioin" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cgc-RG-1ij">
-                                                <rect key="frame" x="120" y="18" width="225" height="32"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                        <color key="backgroundColor" red="0.81960784310000001" green="0.22352941179999999" blue="0.23921568630000001" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
-                                    </view>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Now Playing" id="7tq-Qq-kam">
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="cHZ-gb-6n3">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="LrU-UZ-aKb">
-                                <rect key="frame" x="334" y="9" width="25" height="25"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="collection icon"/>
-                                <connections>
-                                    <segue destination="7Bo-DR-7Rb" kind="push" id="cAV-Mh-pHa"/>
-                                </connections>
-                            </button>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="wVd-b9-Ybl"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="networkError" destination="eL7-HI-fM5" id="II7-hI-blc"/>
@@ -117,88 +101,84 @@
                         <outlet property="tableView" destination="am2-sh-FVn" id="1Eb-6e-Irg"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="668.5" y="-150.5"/>
+            <point key="canvasLocation" x="3795.5" y="-471.5"/>
         </scene>
         <!--Detail View View Controller-->
         <scene sceneID="KTS-Wf-87u">
             <objects>
-                <viewController id="JWO-oY-FQM" customClass="DetailViewViewController" customModule="Flicks" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="JWO-oY-FQM" customClass="DetailViewViewController" customModule="Flicks" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Y6J-cW-KrS"/>
-                        <viewControllerLayoutGuide type="bottom" id="ywd-LQ-Pbe"/>
+                        <viewControllerLayoutGuide type="top" id="IPw-Gs-N45"/>
+                        <viewControllerLayoutGuide type="bottom" id="22k-Rq-sek"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="3Rv-nf-mdb">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SLs-Eq-gYu">
-                                <rect key="frame" x="27" y="64" width="320" height="600"/>
-                            </imageView>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ha9-Oo-vCw">
-                                <rect key="frame" x="0.0" y="458" width="375" height="150"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mO4-k4-hH5">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="668"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dC6-F4-lnX">
-                                        <rect key="frame" x="8" y="8" width="227" height="134"/>
-                                        <fontDescription key="fontDescription" name="TimesNewRomanPS-BoldItalicMT" family="Times New Roman" pointSize="31"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Rating" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tfq-M0-kA8">
-                                        <rect key="frame" x="286" y="34" width="54" height="23"/>
-                                        <fontDescription key="fontDescription" name="TimesNewRomanPS-ItalicMT" family="Times New Roman" pointSize="20"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="10.00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ne5-wf-kfv">
-                                        <rect key="frame" x="266" y="77" width="95" height="47"/>
-                                        <fontDescription key="fontDescription" name="TimesNewRomanPS-ItalicMT" family="Times New Roman" pointSize="42"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ha9-Oo-vCw">
+                                        <rect key="frame" x="0.0" y="667" width="375" height="251"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dC6-F4-lnX">
+                                                <rect key="frame" x="8" y="109" width="227" height="134"/>
+                                                <fontDescription key="fontDescription" name="TimesNewRomanPS-BoldItalicMT" family="Times New Roman" pointSize="31"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Rating" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tfq-M0-kA8">
+                                                <rect key="frame" x="286" y="135" width="54" height="23"/>
+                                                <fontDescription key="fontDescription" name="TimesNewRomanPS-ItalicMT" family="Times New Roman" pointSize="20"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="10.00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ne5-wf-kfv">
+                                                <rect key="frame" x="266" y="178" width="95" height="47"/>
+                                                <fontDescription key="fontDescription" name="TimesNewRomanPS-ItalicMT" family="Times New Roman" pointSize="42"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
+                                    </view>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SLs-Eq-gYu">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="668"/>
+                                    </imageView>
                                 </subviews>
-                                <color key="backgroundColor" red="0.88627450980392153" green="0.66274509803921566" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Ggu-rc-3XD">
-                        <barButtonItem key="leftBarButtonItem" style="plain" id="ob3-49-b0n">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="64f-Ha-p5R">
-                                <rect key="frame" x="16" y="7" width="83" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Back"/>
-                                <connections>
-                                    <segue destination="1yF-CG-QTo" kind="modal" id="WdV-bZ-vMe"/>
-                                </connections>
-                            </button>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="29g-rI-fge"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="detailImg" destination="SLs-Eq-gYu" id="hn7-s6-PeR"/>
                         <outlet property="detailTitle" destination="dC6-F4-lnX" id="Bu7-hR-m1q"/>
                         <outlet property="detailvote" destination="Ne5-wf-kfv" id="O5I-DC-wZH"/>
+                        <outlet property="scrollView" destination="mO4-k4-hH5" id="eLA-rl-jhH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pea-iY-acK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1172.5" y="-150.5"/>
+            <point key="canvasLocation" x="4343.5" y="-470.5"/>
         </scene>
         <!--Movies Collection View Controller-->
         <scene sceneID="bfc-b4-457">
             <objects>
                 <viewController id="7Bo-DR-7Rb" customClass="MoviesCollectionViewController" customModule="Flicks" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="soG-io-feC"/>
-                        <viewControllerLayoutGuide type="bottom" id="AbU-ka-YtC"/>
+                        <viewControllerLayoutGuide type="top" id="2Re-Ip-cAD"/>
+                        <viewControllerLayoutGuide type="bottom" id="3ne-JW-wNh"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="FtT-mK-L2x">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="9Ht-Gd-j8p" customClass="Movi">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="9f3-2w-dzB">
                                     <size key="itemSize" width="182" height="300"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -207,7 +187,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Chen.Cell" id="a7T-Im-QHm" customClass="MovieCollectionViewCell" customModule="Flicks" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="64" width="182" height="300"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="182" height="300"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="182" height="300"/>
@@ -226,7 +206,7 @@
                                 </cells>
                             </collectionView>
                             <view contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="NetworkErrorMessage" translatesAutoresizingMaskIntoConstraints="NO" id="wyJ-Gp-p24">
-                                <rect key="frame" x="0.0" y="617" width="375" height="50"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ePm-Zv-zUC" customClass="networkUIview" customModule="Flicks" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
@@ -255,7 +235,8 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="UEM-0I-s90"/>
+                    <navigationItem key="navigationItem" id="p0B-Ia-mab"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="collectionView" destination="9Ht-Gd-j8p" id="UUs-iu-0xM"/>
@@ -264,89 +245,62 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ozp-RK-xPy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="668.5" y="728.5"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="ydS-Mp-0fC">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="1yF-CG-QTo" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" id="Esi-e4-iPA"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="n6m-z1-qOy">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="5Qk-mC-eMb"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="T9s-gp-0va" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="109.5" y="-150.5"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="4xj-NY-TTq">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Hu7-tI-Fah" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" id="xpe-8b-wQJ"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="md3-Wf-7eY">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="7Bo-DR-7Rb" kind="relationship" relationship="rootViewController" id="DMZ-Nv-tDt"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dVx-4r-gBm" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="137" y="679"/>
+            <point key="canvasLocation" x="2726.5" y="310.5"/>
         </scene>
         <!--Launch Screen View Controller-->
         <scene sceneID="nzY-X4-6LM">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="R9u-rn-YiS" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="0fq-pl-YGM" customClass="LaunchScreenViewController" customModule="Flicks" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="bsF-Xq-gbU"/>
-                        <viewControllerLayoutGuide type="bottom" id="wlt-36-uyt"/>
+                        <viewControllerLayoutGuide type="top" id="EX2-su-Ssg"/>
+                        <viewControllerLayoutGuide type="bottom" id="488-E4-t8F"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="yFj-Zr-yyE">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="  Copyright © 2015 QingTian Chen. All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="QXi-l0-teP">
-                                <rect key="frame" x="47" y="638" width="280" height="21"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Launch Screen" translatesAutoresizingMaskIntoConstraints="NO" id="xBJ-qS-qJR">
+                                <rect key="frame" x="12" y="179" width="350" height="309"/>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="  Copyright © 2016 QingTian Chen. All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="3dG-CL-U6m">
+                                <rect key="frame" x="20" y="626" width="335" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" alpha="0.5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Launch Screen" translatesAutoresizingMaskIntoConstraints="NO" id="xBJ-qS-qJR">
-                                <rect key="frame" x="12" y="179" width="350" height="309"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="launchImg" destination="xBJ-qS-qJR" id="7VT-2L-Sm0"/>
-                        <segue destination="1yF-CG-QTo" kind="modal" identifier="showSplashScreen" modalTransitionStyle="flipHorizontal" id="A1R-dQ-r0x"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="R9u-rn-YiS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-344.5" y="-162.5"/>
+            <point key="canvasLocation" x="1469.5" y="-454.5"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="g1j-Dh-WBP">
+            <objects>
+                <navigationController storyboardIdentifier="MoviesNavController" automaticallyAdjustsScrollViewInsets="NO" id="aLs-o2-Zcm" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="IHs-SI-A6T">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="cYB-B6-viO"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0Na-VK-gws" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3263" y="-472"/>
         </scene>
     </scenes>
     <resources>
         <image name="Launch Screen" width="350" height="309"/>
-        <image name="collection icon" width="25" height="25"/>
         <image name="network-error-img" width="605" height="605"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="fpa-RT-cph"/>
-        <segue reference="A1R-dQ-r0x"/>
-        <segue reference="cAV-Mh-pHa"/>
-    </inferredMetricsTieBreakers>
 </document>

@@ -16,20 +16,22 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var networkError: UIView!
     @IBOutlet weak var tableView: UITableView!
+    
     var movies: [NSDictionary]?
-    var filterNSD: [NSDictionary]?
     var reachability: Reachability?
     var MovieDdata: [String] = []
     var filteredData: [String] = []
     var displayarray: [Int] = []
     
+    let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
+    var endpoint: String!
+    
     override func viewDidLoad() {
-        
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
         searchBar.delegate = self
-        filteredData = MovieDdata
+        
         /****** Check network Status ******/
         do {
             reachability = try Reachability.reachabilityForInternetConnection()
@@ -40,6 +42,7 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
             // this is called on a background thread, but UI updates must
             // be on the main thread, like this:
             self.networkError.hidden = true
+            MBProgressHUD.hideHUDForView(self.view, animated: true)
             dispatch_async(dispatch_get_main_queue()) {
                 if reachability.isReachableViaWiFi() {
                     print("Reachable via WiFi")
@@ -52,6 +55,7 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
             // this is called on a background thread, but UI updates must
             // be on the main thread, like this:
             self.networkError.hidden = false
+            
             dispatch_async(dispatch_get_main_queue()) {
                 print("Not reachable")
             }
@@ -102,8 +106,7 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func loadMovieData() {
-        let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
-        let url = NSURL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)")
+        let url = NSURL(string: "https://api.themoviedb.org/3/movie/\(endpoint)?api_key=\(apiKey)")
         let request = NSURLRequest(
             URL: url!,
             cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData,timeoutInterval: 1)
@@ -132,20 +135,19 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
                                 self.MovieDdata.append(title)
                             }
                             self.filteredData = self.MovieDdata
-                            //print("\(self.MovieDdata)")
-                            //print("\(NumOfMovie)")
                             // Hide HUD once the network request comes back
                             MBProgressHUD.hideHUDForView(self.view, animated: true)
+                            print("get data")
                             self.tableView.reloadData()
-                    } else{
-                        MBProgressHUD.hideHUDForView(self.view, animated: true)
-                        self.loadMovieData()
-                        print("im in reloading")
                     }
+                if let data = error {
+                        MBProgressHUD.hideHUDForView(self.view, animated: true)
+                        self.tableView.reloadData()
+                        print("no data")
+                }
                 }
         })
         task.resume()
-
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -161,10 +163,8 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
                 }
             }
         }
-        print("\(displayarray)")
-        //let movie = filterNSD![indexPath.row]
+        //print("\(displayarray)")
         let movie = movies![displayarray[indexPath.row]]
-        // display all movie[index] element, find those index element in moives
         let title = movie["title"] as! String
         let overview = movie["overview"] as! String
         if let posterPath = movie["poster_path"] as? String {
@@ -204,10 +204,6 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if let movies = movies {
-            //filteredData change when text did change happen,only filtered title appear
-            //find same title in the movies array and only display those movies
-            //print("\(filteredData.count)")
-            //print("\(filteredData)")
             return filteredData.count
             
         }else {
@@ -231,26 +227,6 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
             filteredData = MovieDdata.filter({(dataItem: String) -> Bool in
                 // If dataItem matches the searchText, return true to include it
                 if dataItem.rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil {
-                    
-                    /* 
-                    for loop from 0 to # of movies
-                        for # of filter moive
-                            if n moive title = # filter moive title
-                                find title postiton in moives 
-                                save that position to filteredNSD
-                    */
-                    /*
-                    for (var i = 0; i<self.movies!.count; i++) {
-                        let movie = movies! [i]
-                        let title = movie["title"] as! String
-                        for (var j = 0; j<filteredData.count; j++) {
-                            if(title == filteredData[j]) {
-                                print("\(title) = \(filteredData[j])")
-                                print("\(movies?.indexOf(movie))")
-                            }
-                        }
-                    }*/
-                    
                     return true
                 } else {
                     return false
@@ -260,22 +236,26 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         tableView.reloadData()
     }
     
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
+        /*
         // Pass the selected object to the new view controller.
-    }
-    */
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if (segue.identifier == "detailOfMovie"){
+        let cell = sender as! UITableViewCell
+        let index = tableView.indexPathForCell(cell)
+        let movie = movies![displayarray[(index?.row)!]]
+        let detailviewcontroller = segue.destinationViewController as! DetailViewViewController
+        detailviewcontroller.movie = movie
+        */
+        if (segue.identifier == "pushToDetail"){
             let selectedRowIndex = self.tableView.indexPathForSelectedRow
             let movie = movies![displayarray[(selectedRowIndex?.row)!]]
-            let targetView: DetailViewViewController = segue.destinationViewController as! DetailViewViewController
+            let targetView = segue.destinationViewController as! DetailViewViewController
             targetView.movie = movie
         }
+        
     }
 
 }

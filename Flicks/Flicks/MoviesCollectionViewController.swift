@@ -15,6 +15,7 @@ class MoviesCollectionViewController: UIViewController, UICollectionViewDataSour
 
     @IBOutlet weak var networkError: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
+    
     var movies: [NSDictionary]?
     var reachability: Reachability?
     
@@ -22,6 +23,7 @@ class MoviesCollectionViewController: UIViewController, UICollectionViewDataSour
         super.viewDidLoad()
         collectionView.dataSource = self
         collectionView.delegate = self
+        
         /****** Check network Status ******/
         do {
             reachability = try Reachability.reachabilityForInternetConnection()
@@ -71,6 +73,7 @@ class MoviesCollectionViewController: UIViewController, UICollectionViewDataSour
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     func refresh(refreshControl: UIRefreshControl) {
         print("refresh")
         loadMovieData()
@@ -99,7 +102,6 @@ class MoviesCollectionViewController: UIViewController, UICollectionViewDataSour
         let request = NSURLRequest(
             URL: url!,
             cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData,timeoutInterval: 1)
-        
         let session = NSURLSession(
             configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
             delegate: nil,
@@ -128,10 +130,8 @@ class MoviesCollectionViewController: UIViewController, UICollectionViewDataSour
                 }
         })
         task.resume()
-        
     }
 
-    
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let movies = movies {
             return movies.count
@@ -147,8 +147,6 @@ class MoviesCollectionViewController: UIViewController, UICollectionViewDataSour
         if let posterPath = movie["poster_path"] as? String {
             let baseUrl = "http://image.tmdb.org/t/p/w500"
             let imageUrl = NSURL(string: baseUrl + posterPath)
-            //cell.CollectionImg.setImageWithURL(imageUrl!)
-            
             //Fading in an Image Loaded from the Network
             let imageRequest = NSURLRequest(URL: imageUrl!)
             cell.CollectionImg.setImageWithURLRequest(
@@ -173,32 +171,26 @@ class MoviesCollectionViewController: UIViewController, UICollectionViewDataSour
             })
 
         }
-        //cell.textLabel?.text = title
-        //print("row \(indexPath.row)")
         return cell
         
-    }
-
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if (segue.identifier == "1"){
-            let cell = sender as! UICollectionViewCell
-            let selectedRowIndex = collectionView.indexPathForCell(cell)
-            let movie = movies![(selectedRowIndex!.row)]
-            let targetView: DetailViewViewController = segue.destinationViewController as! DetailViewViewController
-            targetView.movie = movie
-        }
     }
     
 
 
-    /*
+
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if (segue.identifier == "collectionPushToDetail"){
+            let cell = sender as! UICollectionViewCell
+            let index = collectionView.indexPathForCell(cell)
+            let movie = movies![index!.row]
+            let detailviewcontroller = segue.destinationViewController as! DetailViewViewController
+            detailviewcontroller.movie = movie
+        }
     }
-    */
 
 }

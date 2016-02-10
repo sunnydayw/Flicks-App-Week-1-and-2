@@ -13,14 +13,20 @@ import ReachabilitySwift
 
 class DetailViewViewController: UIViewController {
     
+    @IBOutlet weak var infoView: UIView!
     @IBOutlet weak var detailvote: UILabel!
     @IBOutlet weak var detailTitle: UILabel!
     @IBOutlet weak var detailImg: UIImageView!
+    @IBOutlet weak var scrollView: UIScrollView!
     var movie: NSDictionary?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadMovieData()
+        //scrollView.contentSize = CGSize(width: scrollView.frame.size.width, height: infoView.frame.origin.y + infoView.frame.size.height)
+        
+        
+        loadDetails()
+        
         // Do any additional setup after loading the view.
     }
 
@@ -29,9 +35,7 @@ class DetailViewViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    
-    func loadMovieData() {
-        // Display HUD right before the request is made
+    func loadDetails() {
         MBProgressHUD.showHUDAddedTo(self.view, animated: true) 
         if let posterPath = movie?["poster_path"] as? String {
             // we geting 500x750 image
@@ -43,6 +47,7 @@ class DetailViewViewController: UIViewController {
             self.detailTitle.text = title
             let vote_average = movie!["vote_average"] as! Double
             self.detailvote.text = ("\(vote_average)")
+            detailvote.sizeToFit()
             
         } else {
             detailvote.text = nil
@@ -53,6 +58,7 @@ class DetailViewViewController: UIViewController {
 
     
     }
+
     /*
     // MARK: - Navigation
 
