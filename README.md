@@ -93,13 +93,14 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
-
+<img src='https://github.com/sunnydayw/Flicks-App-Week-1-and-2/blob/master/week-2.gif' />
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
 Describe any challenges encountered while building the app.
+as I start to add more features into the app, it's getting more buggy and very time consuming to design the effect that I want. I start to notice, it is very important to have a good comment, even for myself to debug my code.
+I also spend a lot of time to go over the apple developer library just to understand what is the proper name to call on certain function
 
 ## License
 
